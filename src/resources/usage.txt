@@ -1,0 +1,15 @@
+Usage: gt <language> <subcommand> [subproject] [options] [arguments]
+
+    <language>
+    java, cpp, kotlin, scala, swift, and groovy.
+
+    <subcommand>
+    The subcommands available may vary depending on the language.
+
+    all: ls-cmd, projects, reports, root, tree 
+
+    java: add-class, add-testclass, add-pkg, add-testpkg, add-project,
+    ls-cmd, ls-pkg, rm-class, rm-testclass, rm-pkg, rm-testpkg, tree
+
+    <subproject>
+    The subproject onto which the specified action is applied.
