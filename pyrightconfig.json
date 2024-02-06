@@ -1,4 +1,5 @@
 {
     "reportGeneralTypeIssues": false,
+    "reportArgumentType"     : false,
     "reportInvalidStringEscapeSequence": false
 }
