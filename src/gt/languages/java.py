@@ -219,7 +219,8 @@ def _add_pkg(args: List[str]) -> None:
 
 
 def _add_project(args: List[str]) -> None:
-    ensure_sufficient_args(args=args, err_msg="Usage: gt java add-project [--springboot [springboot options]] <project_names>")
+    ensure_sufficient_args(args=args, err_msg="Usage: gt java add-project [--springboot [springboot options]] <project_names>\n\n"
+                                              "For a full list of available springboot options, run 'curl https://start.spring.io'")
     if SINGLE_PROJECT_BUILD:
         response = input("The current build is a single-project build. "
                          "Do you still wish to add a new subproject? (y/n): ")
