@@ -194,7 +194,7 @@ def _add_pkg(args: List[str]) -> None:
                     else:
                         args.insert(0, value)
             else:
-                unrecognized_opts.add()
+                unrecognized_opts.add(opt)
         else:
             args.insert(0, opt)
             break
