@@ -361,7 +361,9 @@ def report_incomplete_or_missing_src_sets(projects: List[str], *, src_language: 
     else:
         be = "is"
         plural_modifier = ""
-    print(f"The source set{plural_modifier} for the {src_language} language in {', '.join(quoted)} {be} incomplete/missing.")
+
+    language_specifier = f"{src_language} languages" if src_language == "all" else f"the {src_language} language"
+    print(f"The source set{plural_modifier} for {language_specifier} in {', '.join(quoted)} {be} incomplete/missing.")
 
 
 def raise_unrecognized_opts_error(*, opts: List[str], cmd: str) -> None:

@@ -170,7 +170,7 @@ def _tree(args: List[str]) -> None:
                 print()
 
     if projects_without_src_set:
-        report_incomplete_or_missing_src_sets(projects_without_src_set)
+        report_incomplete_or_missing_src_sets(projects_without_src_set, src_language="all")
     if projects_dne:
         report_nonexisting_projects(projects_dne)
 
