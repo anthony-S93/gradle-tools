@@ -156,7 +156,7 @@ _gt_completion() {
                 readarray -t COMPREPLY < <(compgen -W "$(gt - projects --plain-format)" -- "$cur")
                 ;;
             add-project)
-                readarray -t COMPREPLY < <(compgen -W "--springboot" -- "$cur")
+                readarray -t COMPREPLY < <(compgen -W "--springboot --package-name" -- "$cur")
                 ;;
             -p)
                 # Suggest available packages for subcommands that support the -p flag
