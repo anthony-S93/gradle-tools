@@ -237,6 +237,7 @@ def _add_project(args: List[str]) -> None:
 
     # Process options
     unrecognized_opts = set()
+    package_specified = False
     springboot_project = False
     springboot_parameters: Dict[str, str] = {}
     while args:
@@ -255,6 +256,13 @@ def _add_project(args: List[str]) -> None:
                     else:
                         args.insert(0, springboot_opt)
                         break
+            elif opt == "--package-name":
+                package_specified = True
+                if args:
+                    package_name = args.pop(0)
+                    if package_name.startswith("--"):
+                        args.insert(0, package_name)
+                        package_name = ""
             else:
                 unrecognized_opts.add(opt)
         else:
@@ -272,8 +280,14 @@ def _add_project(args: List[str]) -> None:
         if springboot_project:
             generate_springboot_subprojects(project_names=subprojects_specified, user_specified_parameters=springboot_parameters)
         else:
-            generate_subprojects(project_names=subprojects_specified, project_type="java-application")
-    
+            if package_specified:
+                if not package_name:
+                    raise Exception("Please specify a valid java package name.")
+                else:
+                    JavaPackage.validate_name(package_name)
+                generate_subprojects(project_names=subprojects_specified, project_type="java-application", package_name=package_name)
+            else:
+                generate_subprojects(project_names=subprojects_specified, project_type="java-application")
 
 
 def _add_testpkg(args: List[str]) -> None:

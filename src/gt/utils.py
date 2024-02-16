@@ -108,16 +108,6 @@ class Package:
         if not pkg.exists():
             raise Exception(f"The package {pkg.name} does not exist.")
 
-    @staticmethod
-    def validate_names(packages: List[str]) -> None:
-        if not packages: # Nothing to do
-            return
-        for package in packages:
-            if os.sep in package:
-                raise Exception("Package names cannot contain path separators.")
-            if str.isdigit(package[0]):
-                raise Exception("Package names cannot begin with a digit.")
-
 
 def ensure_sufficient_args(*, args: List[str], err_msg:str) -> None:
     if not args:
@@ -137,7 +127,7 @@ def extract_and_validate_project_from_args(*, args: List[str]) -> str:
     return project
 
 
-def generate_subprojects(*, project_names: List[str], project_type: str=""):
+def generate_subprojects(*, project_names: List[str], project_type: str="", package_name: str=""):
     # Perform validation
     valid_subproject_names = []
     invalid_subproject_names = []
@@ -152,7 +142,6 @@ def generate_subprojects(*, project_names: List[str], project_type: str=""):
     if valid_subproject_names:
         # Set up the temp directory to run gradle init
         temp_dir = "/tmp/temp_gradle_project"
-        temp_name = os.path.basename(ROOT_PROJECT)
         if os.path.exists(temp_dir):
             if os.path.isdir(temp_dir):
                 shutil.rmtree(temp_dir)
@@ -162,7 +151,9 @@ def generate_subprojects(*, project_names: List[str], project_type: str=""):
         
         # Run gradle init from inside temp directory
         os.chdir(temp_dir)
-        options = ["--no-split-project", "--package", f"{temp_name}", "--project-name", f"{temp_name}", "--type", f"{project_type}"]
+        options = ["--no-split-project", "--project-name", "temp_gradle_project", "--type", f"{project_type}"]
+        if package_name:
+            options += ["--package", f"{package_name}"]
         cmd = ["gradle", "init"] + options
         try:
             subprocess.run(cmd, stdout=sys.stdout, stdin=sys.stdin)
@@ -178,7 +169,7 @@ def generate_subprojects(*, project_names: List[str], project_type: str=""):
                     temp_subproject = dir
                     break
 
-            # Create subproject by copying the temp project into the actual root project
+            # Create subproject by copying the subproject inside temp dir into the actual root project
             if temp_subproject:
                 for subproject in valid_subproject_names:
                     dest = os.path.join(ROOT_PROJECT, f"{subproject}")
