@@ -1,5 +1,6 @@
 {
     "reportGeneralTypeIssues": false,
     "reportArgumentType"     : false,
-    "reportInvalidStringEscapeSequence": false
+    "reportInvalidStringEscapeSequence": false,
+    "reportPossiblyUnboundVariable": false
 }
